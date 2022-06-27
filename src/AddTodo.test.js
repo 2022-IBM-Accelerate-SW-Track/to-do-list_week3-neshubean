@@ -16,15 +16,58 @@ afterEach(() => {
   container = null;
 });
 
+// `render(<App />);` mocks the compentent so that we can do the testing
+// `screen.getByRole('textbox', {name: /Add New Item/i})`  Looks for a textbox compentent with the words "Add New Item"
+// `fireEvent.change(inputTask, { target: { value: "History Test"}})` Types the value "History Test" into the text box.
+// `fireEvent.click()` clicks the selected element.
+// `screen.getByText(/History Test/i)` searches for "History Test" on the screen ignoring case using regex. (Note: getBy only looks for one value. If more than one value or no value is present then an error will occur.  If you want to get more then use `getAllBy`). 
+// `expect(check).toBeInTheDocument();` the element should be in the page if it is the test case is passed. Otherwise the test fails. 
+// If you want to check if a value is equal to something you can use `expect(value).toBe(value_I_want)`.
+// Note: that the elements returned by `getByRole` or `getByText` may not have css or styling. If you want to have those values put a `data-testid` in that component and use `getByTestId` to grab those IDs.
 
+// If we want to check if a value is 
+// 1. Complete the Following Test Cases in `src/AddTodo.test.js`
+//     + No duplicate task
+//     + Submit Task with No Due Date
+//     + Submit Task with No Task Name
+//     + Late Tasks have Different Colors
+//         1. Hint if we wanted to grab the color of the card for "History Test" we can use `const historyCheck = screen.getByTestId(/History Test/i).style.background`
+//     + Delete Task
+//         1. Hint: Earlier we used `screen.getByRole` for getting a Button and a Text Box how would we get a Checkbox? 
 
 
  test('test that App component doesn\'t render dupicate Task', () => {
   render(<App />);
+  const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
+  const addTask = screen.getByRole('button', {name: /Add/i});
+  const date = (new Date()).toLocaleString('en-US');
+  const dueDate = "01/01/2023";
+  //first
+  fireEvent.change(inputTask, { target: { value: "History Test"}});
+  fireEvent.change(date, { target: { value: dueDate}});
+  fireEvent.click(addTask);
+  //duplicate
+  fireEvent.change(inputTask, { target: { value: "History Test"}});
+  fireEvent.change(date, { target: { value: dueDate}});
+  fireEvent.click(addTask);
+  //make sure only 1 and no duplicate
+  let check = screen.getAllByText(/History Test/i);
+  expect(check.length).toBe(1);
  });
 
  test('test that App component doesn\'t add a task without task name', () => {
   render(<App />);
+  const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
+  const addTask = screen.getByRole('button', {name: /Add/i});
+  const date = (new Date()).toLocaleString('en-US');
+  const dueDate = "01/01/2023";
+  //lack of task label
+  fireEvent.change(inputTask, { target: { value: ""}});
+  fireEvent.change(date, { target: { value: dueDate}});
+  fireEvent.click(addTask);
+  //make sure only 1 and no duplicate
+  let check = screen.getAllByText(/You have no todo's left/i);
+  expect(check).toBeInTheDocument();
  });
 
  test('test that App component doesn\'t add a task without due date', () => {
