@@ -40,7 +40,7 @@ afterEach(() => {
   render(<App />);
   const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
   const addTask = screen.getByRole('button', {name: /Add/i});
-  const date = (new Date()).toLocaleString('en-US');
+  const date = screen.getByLabelText("mm/dd/yyyy");
   const dueDate = "01/01/2023";
   //first
   fireEvent.change(inputTask, { target: { value: "History Test"}});
@@ -59,7 +59,7 @@ afterEach(() => {
   render(<App />);
   const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
   const addTask = screen.getByRole('button', {name: /Add/i});
-  const date = (new Date()).toLocaleString('en-US');
+  const date = screen.getByLabelText("mm/dd/yyyy");
   const dueDate = "01/01/2023";
   //lack of task label
   fireEvent.change(inputTask, { target: { value: ""}});
@@ -74,7 +74,7 @@ afterEach(() => {
   render(<App />);
   const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
   const addTask = screen.getByRole('button', {name: /Add/i});
-  const date = (new Date()).toLocaleString('en-US');
+  const date = screen.getByLabelText("mm/dd/yyyy");
   // const dueDate = "01/01/2023";
   //lack of due date label
   fireEvent.change(inputTask, { target: { value: "History Test"}});
@@ -91,7 +91,7 @@ afterEach(() => {
   render(<App />);
   const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
   const addTask = screen.getByRole('button', {name: /Add/i});
-  const date = (new Date()).toLocaleString('en-US');
+  const date = screen.getByLabelText("mm/dd/yyyy");
   const dueDate = "01/01/2023";
   fireEvent.change(inputTask, { target: { value: "History Test"}});
   fireEvent.change(date, { target: { value: dueDate}});
@@ -112,7 +112,7 @@ afterEach(() => {
   render(<App />);
   const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
   const addTask = screen.getByRole('button', {name: /Add/i});
-  const date = (new Date()).toLocaleString('en-US');
+  const date = screen.getByLabelText("mm/dd/yyyy");
   const dueDate = "01/01/2022";
   //late due date
   fireEvent.change(inputTask, { target: { value: "History Test"}});
