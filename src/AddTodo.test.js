@@ -92,17 +92,20 @@ afterEach(() => {
   const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
   const addTask = screen.getByRole('button', {name: /Add/i});
   const date = screen.getByPlaceholderText("mm/dd/yyyy");  
-  const dueDate = "12/12/2023";
+  // const dueDate = "12/12/2023";
   fireEvent.change(inputTask, { target: { value: "History Test"}});
   fireEvent.change(date, { target: { value: "12/12/2023"}});
   fireEvent.click(addTask);
   //make sure there
   const check = screen.getByText(/History Test/i);
+  // expect(check).toBeInTheDocument();
+  const dateCheck = screen.getByText(new RegExp("12/12/2023", "i"));
   expect(check).toBeInTheDocument();
-  const dateCheck = screen.getByText(new RegExp("12/12/2023", 'i'));
   expect(dateCheck).toBeInTheDocument();
+
   const delCheck = screen.getByTestId("checkbox");
-  fireEvent.click(addTask);
+  fireEvent.click(delCheck);
+
   const postDelCheck = screen.getByText(/You have no todo's left/i);
   expect(postDelCheck).toBeInTheDocument();
  });
