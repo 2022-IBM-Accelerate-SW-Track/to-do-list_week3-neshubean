@@ -102,7 +102,7 @@ afterEach(() => {
   const dateCheck = screen.getByText(new RegExp("12/12/2023", 'i'));
   expect(dateCheck).toBeInTheDocument();
   const delCheck = screen.getByTestId("checkbox");
-  fireEvent.click(checkbox);
+  fireEvent.click(addTask);
   const postDelCheck = screen.getByText(/You have no todo's left/i);
   expect(postDelCheck).toBeInTheDocument();
  });
