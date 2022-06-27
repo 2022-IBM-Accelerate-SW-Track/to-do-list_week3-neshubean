@@ -65,22 +65,64 @@ afterEach(() => {
   fireEvent.change(inputTask, { target: { value: ""}});
   fireEvent.change(date, { target: { value: dueDate}});
   fireEvent.click(addTask);
-  //make sure only 1 and no duplicate
+  //make sure there
   let check = screen.getAllByText(/You have no todo's left/i);
   expect(check).toBeInTheDocument();
  });
 
  test('test that App component doesn\'t add a task without due date', () => {
   render(<App />);
+  const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
+  const addTask = screen.getByRole('button', {name: /Add/i});
+  const date = (new Date()).toLocaleString('en-US');
+  // const dueDate = "01/01/2023";
+  //lack of due date label
+  fireEvent.change(inputTask, { target: { value: "History Test"}});
+  fireEvent.change(date, { target: { value: null}});
+  fireEvent.click(addTask);
+  //make sure there
+  let check = screen.getAllByText(/You have no todo's left/i);
+  expect(check).toBeInTheDocument();
  });
 
 
 
  test('test that App component can be deleted thru checkbox', () => {
   render(<App />);
+  const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
+  const addTask = screen.getByRole('button', {name: /Add/i});
+  const date = (new Date()).toLocaleString('en-US');
+  const dueDate = "01/01/2023";
+  fireEvent.change(inputTask, { target: { value: "History Test"}});
+  fireEvent.change(date, { target: { value: dueDate}});
+  fireEvent.click(addTask);
+  //make sure there
+  const check = screen.getByText(/History Test/i);
+  expect(check).toBeInTheDocument();
+  const dateCheck = screen.getByText(new RegExp(dueDate, "i"));
+  expect(dateCheck).toBeInTheDocument();
+  const delCheck = screen.getByTestId("checkbox");
+  fireEvent.click(checkbox);
+  const postDelCheck = screen.getByText(/You have no todo's left/i);
+  expect(postDelCheck).toBeInTheDocument();
  });
 
 
  test('test that App component renders different colors for past due events', () => {
   render(<App />);
+  const inputTask = screen.getByRole('textbox', {name: /Add New Item/i});
+  const addTask = screen.getByRole('button', {name: /Add/i});
+  const date = (new Date()).toLocaleString('en-US');
+  const dueDate = "01/01/2022";
+  //late due date
+  fireEvent.change(inputTask, { target: { value: "History Test"}});
+  fireEvent.change(date, { target: { value: dueDate}});
+  fireEvent.click(addTask);
+  //make sure there
+  const check = screen.getByText(/History Test/i);
+  expect(check).toBeInTheDocument();
+  const dateCheck = screen.getByText(new RegExp(dueDate, "i"));
+  expect(dateCheck).toBeInTheDocument();
+  const colorCheck = check.style.background;
+  expect(colorCheck).not.toBe("white");
  });
