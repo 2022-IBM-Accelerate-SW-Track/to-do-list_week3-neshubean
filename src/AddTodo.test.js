@@ -98,12 +98,11 @@ afterEach(() => {
   fireEvent.click(addTask);
   //make sure there
   const check = screen.getByText(/History Test/i);
-  // expect(check).toBeInTheDocument();
-  const dateCheck = screen.getByText(new RegExp("12/12/2023", "i"));
   expect(check).toBeInTheDocument();
+  const dateCheck = screen.getByText(new RegExp("12/12/2023", "i"));
   expect(dateCheck).toBeInTheDocument();
 
-  const delCheck = screen.getByTestId("checkbox");
+  const delCheck = screen.getByRole('checkbox');
   fireEvent.click(delCheck);
 
   const postDelCheck = screen.getByText(/You have no todo's left/i);
